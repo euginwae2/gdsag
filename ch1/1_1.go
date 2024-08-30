@@ -40,6 +40,22 @@ func addStudent[T Stringer](students []T, student T) []T {
 // 	return append(students, student)
 // }
 
+
+// Group of functions that ensure that an OrderedSlice can be sorted
+
+ type OrderedSlice[T Ordered] []T //T myst implement < and >
+
+ func (s OrderedSlice[T]) Len() int {
+	return len(s)
+ }
+
+ func (s OrderedSlice[T]) Less(i,j int) bool {
+	return  s[i] < s[j]
+ }
+
+ func (s OrderedSlice[T]) Swap(i,j int) {
+	s[i], s[j] = s[j], s[i]
+ }
 func main() {
 	students := []String{} //empty slice
 	result := addStudent[String](students, "Micheal")
