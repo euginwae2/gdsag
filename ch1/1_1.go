@@ -31,7 +31,7 @@ func (s Student) String() string {
 	return fmt.Sprintf("%s %d %0.2f", s.Name, s.ID, s.Age)
 }
 
-func addStudent[T Stringer](students []T, student T) []T {
+func addStudent[T any](students []T, student T) []T {
 	return append(students, student)
 }
 
@@ -46,19 +46,22 @@ func addStudent[T Stringer](students []T, student T) []T {
 
 // Group of functions that ensure that an OrderedSlice can be sorted
 
-//  type OrderedSlice[T Ordered] []T //T myst implement < and >
+type Ordered interface {
+	~int | ~float64 | ~string
+}
+ type OrderedSlice[T Ordered] []T //T myst implement < and >
 
-//  func (s OrderedSlice[T]) Len() int {
-// 	return len(s)
-//  }
+ func (s OrderedSlice[T]) Len() int {
+	return len(s)
+ }
 
-//  func (s OrderedSlice[T]) Less(i,j int) bool {
-// 	return  s[i] < s[j]
-//  }
+ func (s OrderedSlice[T]) Less(i,j int) bool {
+	return  s[i] < s[j]
+ }
 
-//  func (s OrderedSlice[T]) Swap(i,j int) {
-// 	s[i], s[j] = s[j], s[i]
-//  }
+ func (s OrderedSlice[T]) Swap(i,j int) {
+	s[i], s[j] = s[j], s[i]
+ }
 
 //  Group of functions that ensure that SortType can be sorted
  type SortType[T any] struct{
@@ -85,22 +88,26 @@ func PerformSort[T any](slice []T,compare func(T,T) bool) {
 }
 
 func main() {
-	students := []String{} //empty slice
-	result := addStudent[String](students, "Micheal")
-	result = addStudent[String](result, "Jennifer")
-	result = addStudent[String](result, "Elaine")
+	students := []string{} //empty slice
+	result := addStudent[string](students, "Micheal")
+	result = addStudent[string](result, "Jennifer")
+	result = addStudent[string](result, "Elaine")
+	sort.Sort(OrderedSlice[string](result))
 	fmt.Println(result)
 
-	students1 := []Integer{} //empty slice
-	results1 := addStudent[Integer](students1, 155)
-	results1 = addStudent[Integer](results1, 122)
-	results1 = addStudent[Integer](results1, 120)
-
+	students1 := []int{} //empty slice
+	results1 := addStudent[int](students1, 155)
+	results1 = addStudent[int](results1, 122)
+	results1 = addStudent[int](results1, 120)
+	sort.Sort(OrderedSlice[int](results1))
 	fmt.Println(results1)
 
 	students2 := []Student{} //Empty slice
 	results2 := addStudent[Student](students2, Student{"John", 213, 17.5})
 	results2 = addStudent[Student](results2, Student{"James", 111, 18.75})
 	results2 = addStudent[Student](results2, Student{"Marsha", 110, 16.25})
+	PerformSort[Student](results2,func(s1, s2 Student) bool {
+		return s1.Age <s2.Age // Compare twi Student values
+	})
 	fmt.Println(results2)
 }
