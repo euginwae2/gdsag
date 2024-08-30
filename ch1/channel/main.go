@@ -2,14 +2,11 @@ package main
 
 import (
 	"fmt"
-	"sync"
 	"time"
 )
 
-var wg sync.WaitGroup
-
+var quit chan bool
 func pingGenerator(c chan string) {
-	defer wg.Done()
 	for i :=0; i < 5; i++ {
 		c <- "ping"
 		time.Sleep(time.Second * 1)
@@ -17,23 +14,21 @@ func pingGenerator(c chan string) {
 }
 
 func output(c chan string) {
-	defer wg.Done()
 	for {
 		select {
 			case value := <- c:
 				fmt.Println(value)
 			case <-time.After(3 * time.Second):
 				fmt.Println("Program timed out.")
-				wg.Done()
+				quit <- true
 		}
 	}
 }
 
 func main() {
+	quit = make(chan bool)
 	c := make(chan string)
-	wg.Add(2)
 	go pingGenerator(c)
 	go output(c)
-
-	wg.Wait()
+	<- quit
 }
