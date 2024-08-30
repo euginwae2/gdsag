@@ -87,6 +87,15 @@ func PerformSort[T any](slice []T,compare func(T,T) bool) {
 	sort.Sort(SortType[T]{slice,compare})
 }
 
+// Map functions
+func MyMap(input []int, f func(int) int) []int{
+	result := make([]int,len(input))
+	for index, value := range input {
+		result[index] = f(value)
+	}
+	return result
+}
+
 func main() {
 	students := []string{} //empty slice
 	result := addStudent[string](students, "Micheal")
@@ -110,4 +119,11 @@ func main() {
 		return s1.Age <s2.Age // Compare twi Student values
 	})
 	fmt.Println(results2)
+
+	// map functions
+	slice := []int{1,5,2,7,4}
+	result3 := MyMap(slice,func(i int) int {
+		return i * i
+	})
+	fmt.Println(result3)
 }
