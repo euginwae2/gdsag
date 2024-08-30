@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 type Stringer = interface {
 	String() string
@@ -43,19 +46,44 @@ func addStudent[T Stringer](students []T, student T) []T {
 
 // Group of functions that ensure that an OrderedSlice can be sorted
 
- type OrderedSlice[T Ordered] []T //T myst implement < and >
+//  type OrderedSlice[T Ordered] []T //T myst implement < and >
 
- func (s OrderedSlice[T]) Len() int {
-	return len(s)
+//  func (s OrderedSlice[T]) Len() int {
+// 	return len(s)
+//  }
+
+//  func (s OrderedSlice[T]) Less(i,j int) bool {
+// 	return  s[i] < s[j]
+//  }
+
+//  func (s OrderedSlice[T]) Swap(i,j int) {
+// 	s[i], s[j] = s[j], s[i]
+//  }
+
+//  Group of functions that ensure that SortType can be sorted
+ type SortType[T any] struct{
+	slice []T
+	compare func(T,T) bool
  }
 
- func (s OrderedSlice[T]) Less(i,j int) bool {
-	return  s[i] < s[j]
+ func (s SortType[T]) Len() int {
+	return len(s.slice)
  }
 
- func (s OrderedSlice[T]) Swap(i,j int) {
-	s[i], s[j] = s[j], s[i]
+ func (s SortType[T]) Less(i,j int) bool {
+	return s.compare(s.slice[i], s.slice[j])
  }
+
+ func (s SortType[T]) Swap(i,j int) {
+	s.slice[i], s.slice[j] = s.slice[j], s.slice[i]
+ }
+
+//  end group for SortType
+
+func PerformSort[T any](slice []T,compare func(T,T) bool) {
+	sort.Sort(SortType[T]{slice,compare})
+}
+
 func main() {
 	students := []String{} //empty slice
 	result := addStudent[String](students, "Micheal")
