@@ -9,29 +9,30 @@ import (
 
 // simple goroutine running concurrent with main
 
-func regularFunction(){
+func regularFunction() {
 	fmt.Println("Just entered regularFunction()")
 	time.Sleep(10 * time.Second)
 }
 
-func goroutineFunction(){
+func goroutineFunction() {
 	fmt.Println("Just entered goroutineFunction()")
 	time.Sleep(5 * time.Second)
 	fmt.Println("goroutineFunction finished its work")
 }
 
 var wg sync.WaitGroup
+
 func outputStrings() {
 	defer wg.Done()
 	strings := [5]string{"One", "Two", "Three", "Four", "Five"}
-	for i := 0; i< 5; i++ {
+	for i := 0; i < 5; i++ {
 		delay := 1 + rand.Intn(3)
 		time.Sleep(time.Duration(delay) * time.Second)
 		fmt.Println(strings[i])
 	}
 }
 
-func outputInts(){
+func outputInts() {
 	defer wg.Done()
 	for i := 0; i < 5; i++ {
 		delay := 1 + rand.Intn(3)
@@ -42,10 +43,10 @@ func outputInts(){
 
 func outputFloats() {
 	defer wg.Done()
-	for i := 0; i<5;i++{
+	for i := 0; i < 5; i++ {
 		delay := 1 + rand.Intn(3)
 		time.Sleep(time.Duration(delay) * time.Second)
-		fmt.Println(float64(i *i) + 0.5)
+		fmt.Println(float64(i*i) + 0.5)
 	}
 }
 func main() {

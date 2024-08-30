@@ -62,7 +62,7 @@ func (s OrderedSlice[T]) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
 }
 
-//  Group of functions that ensure that SortType can be sorted
+// Group of functions that ensure that SortType can be sorted
 type SortType[T any] struct {
 	slice   []T
 	compare func(T, T) bool
