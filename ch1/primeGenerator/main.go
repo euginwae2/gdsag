@@ -1,5 +1,12 @@
 package main
 
+import (
+	"fmt"
+	"time"
+)
+
+const LargestPrime = 10_000_000
+
 func SieveOferatosthenes(n int) []int {
 	// finds all primes up to n
 	primes := make([]bool, n+1)
@@ -25,4 +32,14 @@ func SieveOferatosthenes(n int) []int {
 		}
 	}
 	return primeNumbers
+}
+
+
+func main() {
+	start := time.Now()
+	sieve := SieveOferatosthenes(LargestPrime)
+	elapsed := time.Since(start)
+	fmt.Println("\nComputation time: ", elapsed)
+	fmt.Println("Largest prime: ", sieve[len(sieve)-1])
+	fmt.Println("\nNumber of primes: ", len(sieve))
 }
