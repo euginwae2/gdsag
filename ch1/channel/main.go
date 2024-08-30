@@ -19,8 +19,13 @@ func pingGenerator(c chan string) {
 func output(c chan string) {
 	defer wg.Done()
 	for {
-		value := <- c
-		fmt.Println(value)
+		select {
+			case value := <- c:
+				fmt.Println(value)
+			case <-time.After(3 * time.Second):
+				fmt.Println("Program timed out.")
+				wg.Done()
+		}
 	}
 }
 
