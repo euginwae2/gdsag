@@ -104,6 +104,16 @@ func GenericMap[T1,T2 any](input []T1,f func(T1)T2) []T2 {
 	return result
 }
 
+func MyFilter(input []float64, f func (float64) bool) []float64 {
+	var result []float64
+	for _,value := range input {
+		if f(value) {
+			result = append(result,value)
+		}
+	}
+	return result
+}
+
 func main() {
 	students := []string{} //empty slice
 	result := addStudent[string](students, "Micheal")
@@ -134,4 +144,11 @@ func main() {
 		return i * i
 	})
 	fmt.Println(result3)
+
+	// myfilter
+	input := []float64{17.3, 11.1,9.9,4.3,12.6}
+	res := MyFilter(input, func(f float64) bool {
+		return f < 10.0 
+	})
+	fmt.Println(res)
 }
