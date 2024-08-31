@@ -8,6 +8,7 @@ import (
 )
 
 const size = 100_000_000
+
 var data []float64
 
 func isSorted1(data []float64) bool {
@@ -34,9 +35,8 @@ func isSorted2(data []float64) bool {
 	return true
 }
 
-
 func main() {
-	data = make([]float64,size)
+	data = make([]float64, size)
 	for i := 0; i < size; i++ {
 		data[i] = 100.0 * rand.Float64()
 	}
@@ -44,30 +44,30 @@ func main() {
 	start := time.Now()
 	result := isSorted1(data)
 	elapsed := time.Since(start)
-	fmt.Println("Sorted: ",result)
+	fmt.Println("Sorted: ", result)
 	fmt.Println("elapsed using sorted1:", elapsed)
 
 	data2 := make([]float64, size)
-	for i := 0; i <size; i++ {
-		data2[i] = float64(2 *i)
+	for i := 0; i < size; i++ {
+		data2[i] = float64(2 * i)
 	}
 
 	start = time.Now()
 	result = isSorted1(data2)
 	elapsed = time.Since(start)
-	fmt.Println("Sorted: ",result)
+	fmt.Println("Sorted: ", result)
 	fmt.Println("elapsed using sorted1:", elapsed)
 
 	start = time.Now()
 	result = isSorted2(data)
 	elapsed = time.Since(start)
-	fmt.Println("Sorted: ",result)
+	fmt.Println("Sorted: ", result)
 	fmt.Println("elapsed using sorted2:", elapsed)
 
 	start = time.Now()
 	result = isSorted2(data2)
 	elapsed = time.Since(start)
-	fmt.Println("Sorted: ",result)
+	fmt.Println("Sorted: ", result)
 	fmt.Println("elapsed using sorted2:", elapsed)
 
 }
