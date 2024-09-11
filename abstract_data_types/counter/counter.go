@@ -9,9 +9,9 @@ func (c *Counter) Increment() {
 }
 
 func (c *Counter) Decrement() {
-if c.count > 0{
-	c.count -= 1
-}
+	if c.count > 0 {
+		c.count -= 1
+	}
 }
 
 func (c *Counter) Reset() {

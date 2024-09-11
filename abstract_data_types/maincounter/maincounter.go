@@ -8,7 +8,7 @@ import (
 
 func main() {
 	myCounter := counter.Counter{}
-	
+
 	myCounter.Increment()
 	myCounter.Increment()
 	myCounter.Reset()
