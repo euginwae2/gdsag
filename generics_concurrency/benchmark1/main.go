@@ -20,7 +20,7 @@ func sum(s []float64, c chan<- float64) {
 
 func plainSum(s []float64) float64 {
 	sum := 0.0
-	for _,v := range s{
+	for _, v := range s {
 		sum += float64(v)
 	}
 	return sum
@@ -34,14 +34,14 @@ func main() {
 
 	c := make(chan float64)
 	start := time.Now()
-	go sum(s[:len(s) /2], c)
-	go sum(s[len(s) /2 :], c)
-	first,second := <-c, <-c //receive from each c
+	go sum(s[:len(s)/2], c)
+	go sum(s[len(s)/2:], c)
+	first, second := <-c, <-c //receive from each c
 	elapsed := time.Since(start)
-	fmt.Printf("first: %f second: %f elapsed time: %v", first,second, elapsed)
+	fmt.Printf("first: %f second: %f elapsed time: %v", first, second, elapsed)
 
-	start =  time.Now()
+	start = time.Now()
 	answer := plainSum(s)
 	elapsed = time.Since(start)
-	fmt.Printf("\nplain sum: %f elapsed time: %v\n", answer,elapsed)
+	fmt.Printf("\nplain sum: %f elapsed time: %v\n", answer, elapsed)
 }

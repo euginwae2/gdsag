@@ -37,12 +37,11 @@ func player(name string, move chan int) {
 		}
 
 		// Display and then increment the total move count by one
-		fmt.Printf("Player %s has moved. Turn %d\n", name,turn)
-		turn ++
+		fmt.Printf("Player %s has moved. Turn %d\n", name, turn)
+		turn++
 
 		// Yield the turn back to the opposing player
-		time.Sleep(1 *time.Second)
+		time.Sleep(1 * time.Second)
 		move <- turn
 	}
 }
-

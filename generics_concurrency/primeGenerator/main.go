@@ -34,7 +34,6 @@ func SieveOferatosthenes(n int) []int {
 	return primeNumbers
 }
 
-
 func main() {
 	start := time.Now()
 	sieve := SieveOferatosthenes(LargestPrime)

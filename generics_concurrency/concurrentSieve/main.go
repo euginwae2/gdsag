@@ -11,7 +11,7 @@ var primes []int
 
 // send the sequence to channel
 func generate(prime1 chan<- int) {
-	for i := 3;;i+=2 {
+	for i := 3; ; i += 2 {
 		prime1 <- i //send 'i' to channel prime1
 	}
 }
@@ -21,7 +21,7 @@ func generate(prime1 chan<- int) {
 func Filter(in <-chan int, out chan<- int, prime int) {
 	for {
 		i := <-in //Receive value from 'in'
-		if i % prime != 0 {
+		if i%prime != 0 {
 			out <- i //send 'i' to 'out'
 		}
 	}
@@ -30,7 +30,7 @@ func Filter(in <-chan int, out chan<- int, prime int) {
 func main() {
 	start := time.Now()
 	prime1 := make(chan int) //create a new channel
-	go generate(prime1) //launch goroutine
+	go generate(prime1)      //launch goroutine
 	for {
 		prime := <-prime1
 		if prime > LargestPrime {
