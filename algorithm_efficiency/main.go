@@ -3,12 +3,14 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"sync"
 	"time"
 )
 
 // mergesort
 
 const size = 50_000_000
+const max = 5000
 
 type Ordered interface {
 	~float64 | ~int | ~string
@@ -80,13 +82,41 @@ func MergeSort[T Ordered](data []T) []T {
 	return data
 }
 
+func ConcurrentMergeSort[T Ordered] (data []T) []T {
+	if len(data) >1 {
+		if len(data) <= max {
+			return MergeSort(data)
+		} else { // Concurrent
+			middle := len(data) /2
+			left := data[:middle]
+			right := data[middle:]
+			var wg sync.WaitGroup
+			wg.Add(2)
+			var data1, data2 []T
+			go func() {
+				defer wg.Done()
+				data1 = ConcurrentMergeSort(left)
+			}()
+
+			go func() {
+				defer wg.Done()
+				data2 =  ConcurrentMergeSort(right)
+			}()
+
+			wg.Wait()
+			return Merge(data1,data2)
+		}
+	}
+	return nil
+}
+ 
 func main() {
 	data := make([]float64, size)
 	for i := 0; i < size; i++ {
 		data[i] = 100.0 * rand.Float64()
 	}
 	start := time.Now()
-	result := MergeSort[float64](data)
+	result := ConcurrentMergeSort[float64](data)
 	elapsed := time.Since(start)
 	fmt.Println("Elapsed time for MergeSort = ", elapsed)
 	fmt.Println("is sorted: ", IsSorted(result))
