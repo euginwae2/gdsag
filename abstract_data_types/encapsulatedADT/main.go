@@ -18,7 +18,9 @@ func (c *counter) increment() {
 }
 
 func (c *counter) decrement() {
-	c.count -= 1
+	if c.count > 0 {
+		c.count -= 1
+	}
 }
 
 func (c *counter) reset() {
