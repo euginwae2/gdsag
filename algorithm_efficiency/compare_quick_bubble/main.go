@@ -6,7 +6,6 @@ import (
 	"time"
 )
 
-
 const size = 100_000
 
 type Ordered interface {
@@ -15,10 +14,10 @@ type Ordered interface {
 
 func bubbleSort[T Ordered](data []T) {
 	n := len(data)
-	for i :=0; i < n-1; i++ {
-		for j :=0; j <n-1-i; j++ {
+	for i := 0; i < n-1; i++ {
+		for j := 0; j < n-1-i; j++ {
 			if data[j] > data[j+1] {
-				data[j],data[j+1] = data[j+1], data[j]
+				data[j], data[j+1] = data[j+1], data[j]
 			}
 		}
 	}
@@ -26,8 +25,8 @@ func bubbleSort[T Ordered](data []T) {
 
 func quickSort[T Ordered](data []T, low, high int) {
 	if low < high {
-		var pivot = partition(data,low,high)
-		quickSort(data,low,pivot)
+		var pivot = partition(data, low, high)
+		quickSort(data, low, pivot)
 		quickSort(data, pivot+1, high)
 	}
 }
@@ -37,15 +36,15 @@ func partition[T Ordered](data []T, low, high int) int {
 	var pivot = data[low]
 	var i = low
 	var j = high
-	for i <j {
+	for i < j {
 		for data[i] <= pivot && i < high {
 			i++
 		}
 		for data[j] > pivot && j > low {
 			j--
 		}
-		if i <j {
-			data[i], data[j] = data[j],data[i]
+		if i < j {
+			data[i], data[j] = data[j], data[i]
 		}
 	}
 	data[low] = data[i]
@@ -53,21 +52,20 @@ func partition[T Ordered](data []T, low, high int) int {
 	return j
 }
 
-
 func main() {
-	data := make([]float64,size)
+	data := make([]float64, size)
 	for i := 0; i < size; i++ {
-		data[i] = math.Sin(float64(i*i))
+		data[i] = math.Sin(float64(i * i))
 	}
 
 	start := time.Now()
-	quickSort[float64](data,0, len(data)-1)
+	quickSort[float64](data, 0, len(data)-1)
 	elapsed := time.Since(start)
 	fmt.Println("Elapsed sort time for sine wave using quickSort: ", elapsed)
 
-	data =  make([]float64, size)
-	for i :=0; i< size; i++ {
-		data[i] = math.Sin(float64(i*i))
+	data = make([]float64, size)
+	for i := 0; i < size; i++ {
+		data[i] = math.Sin(float64(i * i))
 	}
 	start = time.Now()
 	bubbleSort[float64](data)

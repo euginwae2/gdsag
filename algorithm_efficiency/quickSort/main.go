@@ -9,9 +9,9 @@ type Ordered interface {
 // log(2,n)
 func quicksort[T Ordered](data []T, low, high int) {
 	if low < high {
-		var pivot = partition(data,low,high)
-		quicksort(data,low,pivot)
-		quicksort(data,pivot+1, high)
+		var pivot = partition(data, low, high)
+		quicksort(data, low, pivot)
+		quicksort(data, pivot+1, high)
 	}
 }
 
@@ -29,7 +29,7 @@ func partition[T Ordered](data []T, low, high int) int {
 			j--
 		}
 		if i < j {
-			data[i],data[j] = data[j], data[i]
+			data[i], data[j] = data[j], data[i]
 		}
 	}
 	data[low] = data[j]
@@ -38,10 +38,10 @@ func partition[T Ordered](data []T, low, high int) int {
 }
 
 func main() {
-	numbers := []float64{3.5,-2.4,12.8,9.1}
+	numbers := []float64{3.5, -2.4, 12.8, 9.1}
 	names := []string{"Zachary", "John", "Moe", "Jim", "Robert"}
 	quicksort[float64](numbers, 0, len(numbers)-1)
 	fmt.Println(numbers)
-	quicksort[string](names,0,len(names) -1)
+	quicksort[string](names, 0, len(names)-1)
 	fmt.Println(names)
 }

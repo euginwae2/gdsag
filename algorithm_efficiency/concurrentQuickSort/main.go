@@ -14,63 +14,62 @@ type Ordered interface {
 	~int | ~float64 | ~string
 }
 
-
-func InsertSort[T Ordered](data[] T) {
-// O(n^2)
+func InsertSort[T Ordered](data []T) {
+	// O(n^2)
 	i := 1
 	for i < len(data) {
 		h := data[i]
-		j := i -1
-		for j >=0 && h < data[j] {
-			data[j +1] =  data[j]
+		j := i - 1
+		for j >= 0 && h < data[j] {
+			data[j+1] = data[j]
 			j -= 1
 		}
-		data[j +1] = h
+		data[j+1] = h
 		i += 1
 	}
 }
 
-func Partition[T Ordered](data[] T) int {
-	data[len(data) / 2], data[0] =  data[0], data[len(data) / 2]
+func Partition[T Ordered](data []T) int {
+	data[len(data)/2], data[0] = data[0], data[len(data)/2]
 	pivot := data[0]
 	mid := 0
 	i := 1
 	for i < len(data) {
 		if data[i] < pivot {
 			mid += 1
-			data[i], data[mid] = data[mid],data[i]
+			data[i], data[mid] = data[mid], data[i]
 		}
 		i += 1
 	}
-	data[0], data[mid] =  data[mid],data[0]
+	data[0], data[mid] = data[mid], data[0]
 	return mid
 }
 
-func IsSorted[T Ordered](data[] T) bool {
-	for i :=1; i< len(data); i ++ {
-		if data[i] < data[i -1] {
+func IsSorted[T Ordered](data []T) bool {
+	for i := 1; i < len(data); i++ {
+		if data[i] < data[i-1] {
 			return false
 		}
 	}
 	return true
 }
 
-func ConcurrentQuickSort[T Ordered](data[] T, wg *sync.WaitGroup) {
+func ConcurrentQuickSort[T Ordered](data []T, wg *sync.WaitGroup) {
 	for len(data) >= 30 {
 		mid := Partition(data)
-		var portion[] T
+		var portion []T
 		if mid < len(data)/2 {
-			portion =  data[:mid]
-			data = data[mid + 1:]
+			portion = data[:mid]
+			data = data[mid+1:]
 		} else {
-			portion =  data[mid + 1:]
+			portion = data[mid+1:]
 			data = data[:mid]
 		}
-		if (len(portion) > threshold) {
+		if len(portion) > threshold {
 			wg.Add(1)
-			go func(data[] T) {
+			go func(data []T) {
 				defer wg.Done()
-				ConcurrentQuickSort(data,wg)
+				ConcurrentQuickSort(data, wg)
 			}(portion)
 		} else {
 			ConcurrentQuickSort(portion, wg)
@@ -79,7 +78,7 @@ func ConcurrentQuickSort[T Ordered](data[] T, wg *sync.WaitGroup) {
 	InsertSort((data))
 }
 
-func QSort[T Ordered](data[] T) {
+func QSort[T Ordered](data []T) {
 	var wg sync.WaitGroup
 	ConcurrentQuickSort(data, &wg)
 	wg.Wait()
@@ -91,7 +90,7 @@ func partition[T Ordered](data []T, low, high int) int {
 	var j = high
 	for i < j {
 		for data[i] <= pivot && i < high {
-			i++;
+			i++
 		}
 		for data[j] > pivot && j > low {
 			j--
@@ -107,9 +106,9 @@ func partition[T Ordered](data []T, low, high int) int {
 
 func quicksort[T Ordered](data []T, low, high int) {
 	if low < high {
-		var pivot =  partition(data, low, high)
+		var pivot = partition(data, low, high)
 		quicksort(data, low, pivot)
-		quicksort(data,pivot +1, high)
+		quicksort(data, pivot+1, high)
 	}
 }
 
@@ -124,7 +123,7 @@ func main() {
 	}
 
 	data2 := make([]float64, size)
-	copy(data2,data)
+	copy(data2, data)
 
 	start := time.Now()
 	QSort[float64](data)
@@ -133,8 +132,8 @@ func main() {
 	fmt.Println("Is sorted: ", IsSorted(data))
 
 	start = time.Now()
-	quicksort(data2, 0, len(data2) -1)
-	elapsed =  time.Since(start)
+	quicksort(data2, 0, len(data2)-1)
+	elapsed = time.Since(start)
 	fmt.Println("Elapsed tinme for regular quicksort = ", elapsed)
 	fmt.Println("Is Sorted: ", IsSorted(data2))
 }
