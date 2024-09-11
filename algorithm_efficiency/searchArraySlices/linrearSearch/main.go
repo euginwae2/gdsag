@@ -24,6 +24,7 @@ func searchSegment[T Ordered](slice []T, target T, a, b int, ch chan<- bool) {
 }
 
 func concurrentSearch[T Ordered](data []T, target T) bool {
+	// O(n)
 	ch := make(chan bool)
 	numSegments := runtime.NumCPU()
 	segmentSize := int(float64(len(data)) / float64(numSegments))
