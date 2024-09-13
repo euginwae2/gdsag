@@ -164,16 +164,4 @@ func main() {
 	})
 
 	w.ShowAndRun()
-	// grid.bringalive(0, 0)
-	// grid.bringalive(0, 2)
-	// grid.bringalive(1, 0)
-	// grid.bringalive(1, 1)
-	// grid.bringalive(2, 2)
-	// consoleOutput()
-
-	// for iteration := 1; iteration < 5; iteration++ {
-	// 	time.Sleep(1 * time.Second)
-	// 	grid.evolveGrid()
-	// 	consoleOutput()
-	// }
 }
