@@ -16,18 +16,17 @@ func init() {
 var dictionary map[string][]string
 
 func alphabetize(word string) string {
-	s := strings.Split(word,"")
+	s := strings.Split(word, "")
 	sort.Strings(s)
-	return strings.Join(s,"")
+	return strings.Join(s, "")
 }
 
-
 func buildDictionary() {
-	dictionary =  make(map[string][]string)
+	dictionary = make(map[string][]string)
 
 	file, err := os.Open("words.txt")
 	if err != nil {
-		log.Fatalf("failed to open file: %s",err)
+		log.Fatalf("failed to open file: %s", err)
 	}
 
 	scanner := bufio.NewScanner(file)
@@ -40,7 +39,7 @@ func buildDictionary() {
 
 	file.Close()
 
-	for _,word := range textwords {
+	for _, word := range textwords {
 		alphabetized := alphabetize(word)
 		var lst []string
 
@@ -49,7 +48,7 @@ func buildDictionary() {
 		} else {
 			lst = []string{}
 		}
-		lst =  append(lst, word)
+		lst = append(lst, word)
 		dictionary[alphabetized] = lst
 	}
 }
@@ -59,6 +58,6 @@ func output(word string) {
 	fmt.Printf("Permutatuin group for %s is %s", word, dictionary[wd])
 }
 
-func main(){
+func main() {
 	output("parties")
 }
