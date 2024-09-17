@@ -36,11 +36,11 @@ func (q *Queue[T]) Remove() T {
 	return returnValue
 }
 
-func (q *Queue[T]) First() T {
+func (q Queue[T]) First() T {
 	return q.first.item
 }
 
-func (q *Queue[T]) Size() int {
+func (q Queue[T]) Size() int {
 	return q.length
 }
 
