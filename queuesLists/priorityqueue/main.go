@@ -6,9 +6,8 @@ import (
 	"example.com/nodequeue"
 )
 
-
 type Passenger struct {
-	name string
+	name     string
 	priority int
 }
 
@@ -25,7 +24,7 @@ func NewPriorityQueue[T any](numberOfPriorities int) (pq PriorityQueue[T]) {
 // Methods for priority queue
 // Insert
 func (pq *PriorityQueue[T]) Insert(item T, priority int) {
-	pq.q[priority -1].Insert(item)
+	pq.q[priority-1].Insert(item)
 	pq.size++
 }
 
@@ -42,8 +41,8 @@ func (pq *PriorityQueue[T]) Remove() T {
 }
 
 // First
-func (pq *PriorityQueue[T]) First() T{
-	for _, queue := range(pq.q){
+func (pq *PriorityQueue[T]) First() T {
+	for _, queue := range pq.q {
 		if queue.Size() > 0 {
 			return queue.First()
 		}
@@ -54,7 +53,7 @@ func (pq *PriorityQueue[T]) First() T{
 
 // IsEmpty
 func (pq *PriorityQueue[T]) IsEmpty() bool {
-	for i :=0; i < len(pq.q); i++ {
+	for i := 0; i < len(pq.q); i++ {
 		if pq.q[i].Size() > 0 {
 			return false
 		}
@@ -64,13 +63,13 @@ func (pq *PriorityQueue[T]) IsEmpty() bool {
 
 func main() {
 	airlineQueue := NewPriorityQueue[Passenger](3)
-	passegers :=  []Passenger{
-		{"Erika",3}, {"Robert", 3}, {"Danielle", 3}, {"Madison",1}, {"Fredrick",1}, {"James",2},
-		{"Dante", 2}, {"Shelley",3},
+	passegers := []Passenger{
+		{"Erika", 3}, {"Robert", 3}, {"Danielle", 3}, {"Madison", 1}, {"Fredrick", 1}, {"James", 2},
+		{"Dante", 2}, {"Shelley", 3},
 	}
 
 	fmt.Println("Passenger: ", passegers)
-	for i :=0; i < len(passegers); i++ {
+	for i := 0; i < len(passegers); i++ {
 		airlineQueue.Insert(passegers[i], passegers[i].priority)
 	}
 	fmt.Println("First passenmger in line: ", airlineQueue.First())

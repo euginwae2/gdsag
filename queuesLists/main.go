@@ -65,7 +65,7 @@ func main() {
 	myDeque.InsertBack(10)
 	myDeque.InsertFront(2)
 	myDeque.InsertBack(12)
-	fmt.Println("myDeque.First()= ",myDeque.First())
+	fmt.Println("myDeque.First()= ", myDeque.First())
 	fmt.Println("myDeque.Last() = ", myDeque.Last())
 
 	myDeque.RemoveLast()

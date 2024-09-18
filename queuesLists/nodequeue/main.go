@@ -7,7 +7,7 @@ type Node[T any] struct {
 
 type Queue[T any] struct {
 	first, last *Node[T]
-	length int
+	length      int
 }
 
 type Iterator[T any] struct {
@@ -17,18 +17,18 @@ type Iterator[T any] struct {
 // Methods
 func (q *Queue[T]) Insert(item T) {
 	newNode := &Node[T]{item, nil}
-	if q.first == nil{
+	if q.first == nil {
 		q.first = newNode
 		q.last = q.first
 	} else {
 		q.last.next = newNode
 		q.last = newNode
 	}
-	q.length +=1
+	q.length += 1
 }
 
 func (q *Queue[T]) Remove() T {
-	if q.first ==  nil {
+	if q.first == nil {
 		var zeroValue T
 		return zeroValue
 	}
@@ -49,18 +49,18 @@ func (q Queue[T]) Size() int {
 	return q.length
 }
 
-func(q *Queue[T]) Range() Iterator[T] {
+func (q *Queue[T]) Range() Iterator[T] {
 	return Iterator[T]{q.first}
 }
 
 func (i *Iterator[T]) Empty() bool {
-	return 	i.next == nil
+	return i.next == nil
 }
 
-func (i *Iterator[T]) Next() T{
+func (i *Iterator[T]) Next() T {
 	returnValue := i.next.item
 	if i.next != nil {
-		i.next =  i.next.next
+		i.next = i.next.next
 	}
 	return returnValue
 }

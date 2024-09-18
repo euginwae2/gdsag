@@ -5,9 +5,9 @@ type Deque[T any] struct {
 }
 
 // insertFront
-func (d *Deque[T])InsertFront(item T) {
-	d.items =  append(d.items, item)
-	for i := len(d.items) -1; i > 0; i-- {
+func (d *Deque[T]) InsertFront(item T) {
+	d.items = append(d.items, item)
+	for i := len(d.items) - 1; i > 0; i-- {
 		d.items[i] = d.items[i-1]
 	}
 	d.items[0] = item
@@ -15,7 +15,7 @@ func (d *Deque[T])InsertFront(item T) {
 
 // InsertBack
 func (d *Deque[T]) InsertBack(item T) {
-	d.items = append(d.items,item)
+	d.items = append(d.items, item)
 }
 
 // first
@@ -45,6 +45,6 @@ func (d *Deque[T]) RemoveLast() T {
 }
 
 // Empty
-func (d *Deque[T]) Empty()bool{
+func (d *Deque[T]) Empty() bool {
 	return len(d.items) == 0
 }

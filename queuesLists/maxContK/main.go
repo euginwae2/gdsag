@@ -8,17 +8,16 @@ import (
 	"example.com/deque"
 )
 
-
-func MaxSubarrayBruteForce(items []int, k int) []int{
+func MaxSubarrayBruteForce(items []int, k int) []int {
 	res := []int{}
 	for i := 0; i <= len(items)-k; i++ {
 		max := items[i]
 		for j := 0; j < k; j++ {
-			if items[j +i] > max {
-				max = items[j + i]
+			if items[j+i] > max {
+				max = items[j+i]
 			}
 		}
-		res = append(res,max)
+		res = append(res, max)
 	}
 	return res
 }
@@ -38,12 +37,12 @@ func MaxSubArrayUsingDeque(input []int, k int) (output []int) {
 		deque.InsertBack(index)
 	}
 
-	for; index < len(input); index ++ {
-		output =  append(output, input[deque.First()])
+	for ; index < len(input); index++ {
+		output = append(output, input[deque.First()])
 
 		// Remove elements out of the window
 		for {
-			if deque.Empty() || deque.First() > index -k {
+			if deque.Empty() || deque.First() > index-k {
 				break
 			}
 			deque.RemoveFirst()
@@ -62,26 +61,27 @@ func MaxSubArrayUsingDeque(input []int, k int) (output []int) {
 }
 
 const size = 1_000_000
+
 func main() {
-	input := []int{9,1,1,0,0,0,1,0,6,8}
+	input := []int{9, 1, 1, 0, 0, 0, 1, 0, 6, 8}
 	// input := []int{3,1,6,4,2,10,5,9}
-	output1 := MaxSubarrayBruteForce(input,3)
+	output1 := MaxSubarrayBruteForce(input, 3)
 	fmt.Println("output = ", output1)
-	output2 := MaxSubArrayUsingDeque(input,3)
+	output2 := MaxSubArrayUsingDeque(input, 3)
 	fmt.Println("output = ", output2)
 
 	// Benchmark performance of two algorithms
 	input = []int{}
 	for i := 0; i < size; i++ {
-		input =  append(input, rand.Intn(1000))
+		input = append(input, rand.Intn(1000))
 	}
 	start := time.Now()
-	MaxSubArrayUsingDeque(input,10000)
+	MaxSubArrayUsingDeque(input, 10000)
 	elapsed := time.Since(start)
 	fmt.Println("Using Deque: ", elapsed)
 
-	start =  time.Now()
+	start = time.Now()
 	MaxSubarrayBruteForce(input, 10000)
-	elapsed =  time.Since(start)
+	elapsed = time.Since(start)
 	fmt.Println("using Brute Force: ", elapsed)
 }

@@ -64,11 +64,11 @@ func (list *List[T]) InsertAt(index int, item T) error {
 func (list *List[T]) RemoveAt(index int) (T, error) {
 	if index < 0 || index > list.numberItems {
 		var zero T
-		return zero , fmt.Errorf("index is out of bounds")
+		return zero, fmt.Errorf("index is out of bounds")
 	}
 
 	if index == 0 {
-		output :=  list.first
+		output := list.first
 		list.first = output.next
 		list.numberItems--
 		return output.Item, nil
@@ -100,7 +100,7 @@ func (list *List[T]) IndexOf(item T) int {
 			return count
 		}
 		if node.next == nil {
-			return	-1
+			return -1
 		}
 		node = node.next
 		count++
@@ -121,7 +121,7 @@ func (list *List[T]) ItemAfter(item T) T {
 	}
 }
 
-func (list *List[T]) Items() []T{
+func (list *List[T]) Items() []T {
 	result := []T{}
 	node := list.first
 	for i := 0; i < list.numberItems; i++ {
@@ -135,7 +135,6 @@ func (list *List[T]) Items() []T{
 func (list *List[T]) First() *Node[T] {
 	return list.first
 }
-
 
 // Size
 func (list *List[T]) Size() int {
