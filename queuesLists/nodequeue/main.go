@@ -6,7 +6,7 @@ type Node[T any] struct {
 }
 
 type Queue[T any] struct {
-	first,last *Node[T]
+	first, last *Node[T]
 	length int
 }
 
@@ -28,11 +28,16 @@ func (q *Queue[T]) Insert(item T) {
 }
 
 func (q *Queue[T]) Remove() T {
+	if q.first ==  nil {
+		var zeroValue T
+		return zeroValue
+	}
 	returnValue := q.first.item
 	q.first = q.first.next
 	if q.first == nil {
 		q.last = nil
 	}
+	q.length--
 	return returnValue
 }
 
