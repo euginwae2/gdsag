@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"hash/fnv"
+	"hash/fnv" //Fowler-Noll-Vo alkgorithm
 	"strconv"
 	"time"
 )
 
 const tableSize = 100_000
+
 var length int
 
 func hash(s string) uint32 {
@@ -69,14 +70,13 @@ func (table *HashTable) IsPresent(word string) bool {
 
 }
 
-
 func main() {
 	myTable := Newtable()
 	mapCollection := make(map[string]string)
 
 	words := []string{}
 
-	for i :=0; i <500_000; i++ {
+	for i := 0; i < 500_000; i++ {
 		word := strconv.Itoa(i)
 		words = append(words, word)
 		myTable.Insert(word)
@@ -85,7 +85,7 @@ func main() {
 
 	fmt.Println("Benchmark test begins to test words: ", length)
 	start := time.Now()
-	for i :=0; i <length; i++ {
+	for i := 0; i < length; i++ {
 		if !myTable.IsPresent(words[i]) {
 			fmt.Println("Word not found in table: ", words[i])
 		}
@@ -95,14 +95,13 @@ func main() {
 	fmt.Println("Time to test all words in myTable: ", elapsed)
 
 	start = time.Now()
-	for i :=0; i<length; i++ {
-		_,present := mapCollection[words[i]]
+	for i := 0; i < length; i++ {
+		_, present := mapCollection[words[i]]
 		if !present {
 			fmt.Println("Word not found in mapCollection: ", words[i])
 		}
 	}
 	elapsed = time.Since(start)
 	fmt.Println("Time to test all words in mapCollection: ", elapsed)
-
 
 }
