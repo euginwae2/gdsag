@@ -2,76 +2,31 @@ package main
 
 import (
 	"fmt"
-	"strings"
-	"time"
+
+	"example.com/set"
 )
-
-// rabin karp
-// reduce search from O(n*m) -> O(n)
-
-func BruteForseSearch(txt, pattern string) (bool, int) {
-	patternLenth := len(pattern)
-	for outer := 0; outer < len(txt)-patternLenth; outer++ {
-		if txt[(outer):(outer+patternLenth)] == pattern {
-			return true, outer
-		}
-	}
-	return false, -1
-}
-
-const (
-	Radix = uint64(10)
-	Q     = uint64(10 ^ 9 + 9)
-)
-
-func Hash(s string, Length int) uint64 {
-	// Horner's method
-	h := uint64(0)
-	for i := 0; i < Length; i++ {
-		h = (h*Radix + uint64(s[i])) % Q
-	}
-	return h
-}
-
-func Search(txt, pattern string) (bool, int) {
-	strings.ToLower(txt)
-	strings.ToLower(pattern)
-	n := len(txt)
-	m := len(pattern)
-
-	patternHash := Hash(pattern, m)
-	textHash := Hash(txt, m)
-	if textHash == patternHash {
-		return true, 0
-	}
-	PM := uint64(1)
-	for i := 1; i <= m-1; i++ {
-		PM = (Radix * PM) % Q
-	}
-	for i := m; i < n; i++ {
-		textHash = (textHash + Q - PM*uint64(txt[i-m])%Q) % Q
-		textHash = (textHash*Radix + uint64(txt[i])) % Q
-		if (patternHash == textHash) && pattern == txt[(i-m+1):(i+1)] {
-			return true, i - m + 1
-		}
-	}
-	return false, -1
-}
 
 func main() {
-	text := "31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679"
-	pattern := "816406286208998628034825342"
+	set1 := set.Set[int]{}
+	set1.Insert(3)
+	set1.Insert(5)
+	set1.Insert(7)
+	set1.Insert(9)
 
-	start := time.Now()
-	_,_ = BruteForseSearch(text,pattern)
-	elapsed :=time.Since(start)
-	fmt.Println("Computation time using BruteforceSearch: ", elapsed)
+	set2 := set.Set[int]{}
+	set2.Insert(3)
+	set2.Insert(6)
+	set2.Insert(8)
+	set2.Insert(9)
+	set2.Insert(11)
+	set2.Delete(11)
 
-	start = time.Now()
-	_,_ = Search(text,pattern)
-	elapsed =  time.Since(start)
-	fmt.Println("Computation time using Rabin Karp: ", elapsed)
+	fmt.Println("Items in set2: ", set2.Items())
+	fmt.Println("5 is in set1: ", set1.In(5))
+	fmt.Println("5 is in set2: ", set2.In(5))
 
-	fmt.Println(BruteForseSearch(text,pattern))
-	fmt.Println(Search(text,pattern))
+	fmt.Println("union of set1 and set2: ", set1.Union(set2).Items())
+	fmt.Println("intersection of set1 and set2: ", set1.Intersection(set2).Items())
+	fmt.Println("Difference of set2 with respect to set1: ", set2.Difference(set1).Items())
+	fmt.Println("Size of this difference: ", set1.Intersection(set2).Size())
 }
